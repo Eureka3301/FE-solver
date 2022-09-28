@@ -1,2 +1,2 @@
 # FE-solver
-This is educational program, i will make, learning how FE solver works.
+This is educational program that i will make while learning how FE solver works.
