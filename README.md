@@ -6,11 +6,12 @@ We have solved one dimensional staticaly and kinematicaly defined reological pro
 We can make a matrix of system stiffness and write equations for unknown nodal shift vector.
 If boundary conditions are provided we can solve the system and find shifts.
 
-### nodes
-this is list of pairs.
+### nodes \\ variable
+list of pairs
 pair number *i* shows corresponding pair of nodes for element number *i*
 
-### Kee_F(order) extended stiffness matrix and force vector
+### Kee_F(order) \\ function
+gives extended stiffness matrix and force vector
 *order* is a list of threes (el1 num, el2 num, type of circuit).
 type can be 'p' - paralell or 's' - series.
 el1 num < el2 num
