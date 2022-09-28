@@ -7,6 +7,8 @@ We can make a matrix of system stiffness and write equations for unknown nodal s
 If boundary conditions are provided we can solve the system and find shifts.
 
 ### stiffness_matrix(M)
-M - list of matrix for nodes
-
-### 
+M - list of 3x4 matrix for each element.
+Each matrix is extended and apparantely contains nodes numbers and force column. 
+0   i   j   0
+i  a11 a12  f1
+j  a21 a22  f2
