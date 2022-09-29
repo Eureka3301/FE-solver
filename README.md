@@ -6,10 +6,17 @@ One-dimensional linear elastic elements were considered.
 
 Extended element stiffness matrix were introduced.
 
-A single system for all nodes were written.
+A single system for all nodes shifts were written.
 
 ### function Kee(elems)
 input: elems - list of threes: nodes of element and element stiffness.
 Nodes are enumerated from 0.
 
 output: Kee - extended elastic matrix of stiffness.
+
+## Day 2. 29.09.22
+Truss analysis.
+
+Matrix of extended elements stiffness were made for the truss.
+
+A single system for all nodes shifts were written.
