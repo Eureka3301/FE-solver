@@ -8,7 +8,7 @@ Extended element stiffness matrix were introduced.
 
 A single system for all nodes were written.
 
-### Kee(elems) \ function
+### function Kee(elems)
 input: elems - list of threes: nodes of element and element stiffness.
 Nodes are enumerated from 0.
 
