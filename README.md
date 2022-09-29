@@ -10,5 +10,6 @@ A single system for all nodes were written.
 
 ### Kee(elems) \ function
 input: elems - list of threes: nodes of element and element stiffness.
+Nodes are enumerated from 0.
 
 output: Kee - extended elastic matrix of stiffness.
