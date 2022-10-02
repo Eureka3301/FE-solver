@@ -23,3 +23,5 @@ A single system for all nodes shifts were written.
 
 ### input.in - additional file for the day2.py program.
 Consists of data about elements, nodal forces and boundary conditions.
+
+it works? Actually, no correct tests provided.
