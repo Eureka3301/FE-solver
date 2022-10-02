@@ -20,3 +20,6 @@ Truss analysis.
 Matrix of extended elements stiffness were made for the truss.
 
 A single system for all nodes shifts were written.
+
+### input.in - additional file for the day2.py program.
+Consists of data about elements, nodal forces and boundary conditions.
