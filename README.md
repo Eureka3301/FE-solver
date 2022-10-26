@@ -24,4 +24,13 @@ A single system for all nodes shifts were written.
 ### input.in - additional file for the day2.py program.
 Consists of data about elements, nodal forces and boundary conditions.
 
-it works? Actually, no correct tests provided.
+It works? Actually, no tests provided.
+
+## Day 3. 20.10.22
+Weak and strong formulations. General scheme of FE method.
+
+Form functions introduced.
+Solution approximation with form functions was written.
+Matrix of stiffness and forсe vector can be calculated.
+
+y''+y=1, 0<x<1, y(0)=1, y(1)=0 is solved.
