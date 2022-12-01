@@ -1,61 +1,52 @@
-class nodes:
-    def __init__(self, filename):
-        file = open(filename, "r")
-
-        line = file.readline()
-        self.X = []
-        self.Y = []
-        self.stress = []
-        while True:
-            line = file.readline()
-            if not line:
-                break
-            lst = list(map(float, line.split()))
-            self.stress.append(lst.pop())
-            lst.pop()
-            self.Y.append(lst.pop())
-            self.X.append(lst.pop())
-
-        file.close
-
-    def plot_mesh(self):
-        import matplotlib.pyplot as plt
-
-        plt.title("mesh")
-        plt.scatter(self.X, self.Y)
-        plt.show()
-
-class elements:
-    def __init__(self, filename, nodes):
-        self.nodes = nodes
-
-        file = open(filename, "r")
-
-        line = file.readline()
-        self.elNodes = []
-        while True:
-            line = file.readline()
-            if not line:
-                break
-            self.elNodes.append(list(map(int, line.split()[2:])))
-
-        file.close
-
+class Element:
+    def __init__(self, nodenums, invA) -> None:
+        self.nodes = nodenums
+        # костыль для извлечения столбца из invA
+        # если можно сделать это элегантно, то лучше поменять
+        # например, транспонировать и взять строки
         import numpy as np
-        self.Ne = []
-        for elnum in range(len(self.elNodes)):
-            A = np.matrix([[1, nds.X[self.elNodes[elnum][0]-1], nds.Y[self.elNodes[elnum][0]-1]],
-                           [1, nds.X[self.elNodes[elnum][1]-1], nds.Y[self.elNodes[elnum][1]-1]],
-                           [1, nds.X[self.elNodes[elnum][2]-1], nds.Y[self.elNodes[elnum][2]-1]]])
-            invA = np.linalg.inv(A)
-            invAtr = np.transpose(invA)
-            self.Ne.append([invAtr[0], invAtr[1], invAtr[2]])
+        invA = np.array(invA)
+        #
+        self.N = [invA[:,0], invA[:,1], invA[:,2]]
+
+class Node:
+    def __init__(self, X, Y) -> None:
+        self.X = X
+        self.Y = Y
+
+class Mesh():
+    def __init__(self, nodes_input, elements_input) -> None:
+        self.get_nodes(nodes_input)
+        self.get_elements(elements_input)
+
+    def get_nodes(self, filename):
+        file = open(filename, 'r')
+        line = file.readline()
+        self.nodes = []
+        while True:
+            line = file.readline()
+            if not line:
+                break
+            [X, Y] = list(map(float, line.split()[1:3]))
+            self.nodes.append(Node(X, Y))
+
+    def get_elements(self, filename):
+        from numpy.linalg import inv
+        file = open(filename, 'r')
+        line = file.readline()
+        self.elements = []
+        while True:
+            line = file.readline()
+            if not line:
+                break
+            nums = list(map(int, line.split()[2:]))
+            A = [[1, self.nodes[nums[0]-1].X, self.nodes[nums[0]-1].Y],
+                 [1, self.nodes[nums[1]-1].X, self.nodes[nums[1]-1].Y],
+                 [1, self.nodes[nums[2]-1].X, self.nodes[nums[2]-1].Y]]
+            self.elements.append(Element(nums, inv(A)))
+
+# *********************************************************************
 
 
-################################ main part of the program #############################################
+mesh = Mesh('nodes.txt', 'elements.txt')
 
-nds = nodes("ndsXstress.txt")
-elms = elements("elms.txt", nds)
-
-print(elms.Ne[0])
-print(elms.elNodes[0])
