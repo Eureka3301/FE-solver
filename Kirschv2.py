@@ -190,12 +190,34 @@ for i in range(ndnum):
     if (abs(u[2*i+1] - uy[i]) > 1e-3):
         print('big diff')
 
+
+import matplotlib.pyplot as plt
+
+# !!! u is scaled 100 times to see the deformation
+# !!! this plot represents qualitative information - direction of u
+XX = [X[i] + 100*u[2*i] for i in range(ndnum)]
+YY = [Y[i] + 100*u[2*i+1] for i in range(ndnum)]
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+plt.title(r'E = 2e+6, $\nu$ = 0.3, $\sigma_0$ = 1e+3 Pa')
+
+plt.scatter(X, Y, s = 10, color='blue', label='initial nodes')
+plt.scatter(XX, YY, s = 10, color='red', label='deformed nodes')
+
+plt.xlim([-1, 6])
+plt.xlabel('x, m')
+plt.ylabel('y, m')
+plt.ylim([-1, 6])
+plt.show()
+
+my = []
+ms = []
+
+yy = []
 ss = []
-xx = []
+nn = []
 for e in range(enum):
-
-    Ne = N[e]
-
     i = ijk[e][0]
     j = ijk[e][1]
     k = ijk[e][2]
@@ -203,7 +225,6 @@ for e in range(enum):
     Ni = Ne[0]
     Nj = Ne[1]
     Nk = Ne[2]
-
 
     BN = np.array([
         [Ni[1], 0.0, Nj[1], 0.0, Nk[1], 0.0],
@@ -213,31 +234,35 @@ for e in range(enum):
 
     a = np.array([
         u[2*i], u[2*i+1], u[2*j], u[2*j+1], u[2*k], u[2*k+1]
-    ])
+        ])
 
     eps = BN.dot(a)
+    print(eps)
+    s = D.dot(eps)
 
-    sigm = D.dot(eps)
+    bnd = []
+    for q in ijk[e]:
+        if (abs(X[q]) < 1e-7):
+            bnd.append(q)
 
-    if (X[i] < 1e+7):
-        xx.append(Y[i])
-        ss.append(sigm[1])
-    if (X[j] < 1e+7):
-        xx.append(Y[j])
-        ss.append(sigm[1])
-    if (X[k] < 1e+7):
-        xx.append(Y[k])
-        ss.append(sigm[1])
-
-
-import matplotlib.pyplot as plt
+    if len(bnd) == 2:
+        ss.append(s[0])
+        ss.append(s[0])
+        #yy.append((X[bnd[0]]+X[bnd[1]])/2)
+        yy.append(Y[bnd[0]])
+        yy.append(Y[bnd[1]])
 
 
-plt.figure()
+fig, ax = plt.subplots(figsize=(6, 6))
 
-plt.scatter(xx, ss)
-print(xx)
+plt.title(r'E = 2e+6, $\nu$ = 0.3, $\sigma_0$ = 1e+3 Pa')
 
+ss = [x for _,x in sorted(zip(yy,ss))]
+yy = sorted(yy)
+plt.scatter(ss, yy, color='blue')
+
+plt.ylim([-1, 6])
+plt.ylabel('y, m')
+plt.xlabel(r'$\sigma_x$, Pa')
+#plt.xlim([0, 3e+3])
 plt.show()
-
-
